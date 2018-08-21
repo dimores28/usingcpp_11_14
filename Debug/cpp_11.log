@@ -1,0 +1,4 @@
+﻿  main.cpp
+e:\project_cpp\cpp_11\cpp_11\main.cpp(56): warning C4172: возвращение адреса локальной или временной переменной : i
+  cpp_11.vcxproj -> E:\project_cpp\cpp_11\Debug\cpp_11.exe
+  cpp_11.vcxproj -> E:\project_cpp\cpp_11\Debug\cpp_11.pdb (Full PDB)
