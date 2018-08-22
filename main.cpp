@@ -56,26 +56,107 @@ decltype(auto) get()// окуратно с decltype возвращает ссылку если переменую обер
 	return (i);
 }
 
+//int main()   Динамическое выведение типов 
+//{
+//	int i1 = 1;
+//	int i2 = 2;
+//	string s = "s";
+//
+//	void* v = new vector<void*>{&i1, &i2, &s};
+//
+//	//((vector<void*>*)v)->push_back(v);
+//	//const static auto VecT = [](void* vec) {return static_cast<vector<void*>*>(vec); };
+//	const static auto VecT = [](void* vec) ->decltype(auto) {return *static_cast<vector<void*>*>(vec); };
+//
+//	//static_cast<vector<void*>*>(v)->push_back(v);
+//	VecT(v).push_back(v);
+//
+//	cout << ((vector<void*>*)v)->size() << endl;
+//	cout << get() << endl;
+//
+//	delete v;
+//
+//
+//	return 0;
+//}
+
+//struct A {
+//
+//	virtual void a(){}
+//	virtual ~A(){}
+//};
+//
+//struct B final : public A {
+//
+//	virtual void a() override
+//	{
+//
+//	}
+//};
+
+//namespace {
+//	void foo(A*& i)
+//	{
+//		
+//	}
+//}
+
+
+class A {
+public:
+	A(): i(42), s("Hi"){}
+private:
+	int i ;
+	string s ;
+public:
+	void print()
+	{
+		cout << i << " " << s << endl;
+	}
+
+	virtual ~A(){}
+};
+
+
+struct Hack {
+	int i;
+	string s;
+
+	virtual ~Hack() {}
+};
+
+
+
 int main()
 {
-	int i1 = 1;
-	int i2 = 2;
-	string s = "s";
 
-	void* v = new vector<void*>{&i1, &i2, &s};
+	/*B i1;
+	B* i2 = &i1;
+	foo((A*&)i2);
 
-	//((vector<void*>*)v)->push_back(v);
-	//const static auto VecT = [](void* vec) {return static_cast<vector<void*>*>(vec); };
-	const static auto VecT = [](void* vec) ->decltype(auto) {return *static_cast<vector<void*>*>(vec); };
-
-	//static_cast<vector<void*>*>(v)->push_back(v);
-	VecT(v).push_back(v);
-
-	cout << ((vector<void*>*)v)->size() << endl;
-	cout << get() << endl;
-
-	delete v;
+	cout << sizeof(A) << endl;
+	cout << sizeof(B) << endl;
+*/
 
 
+	A a;
+	((Hack*)&a)->i = 789;
+
+	a.print();
+
+	vector<int> v{ 42,13,14 };
+	vector<int> v2{ 7,7,14 };
+
+	struct VecHack
+	{
+		int* begin;
+		int* end;
+	};
+
+
+	*((VecHack*)&v)->begin = *((VecHack*)&v2)->begin;
+	cout << *v.begin() << endl;
+
+	
 	return 0;
 }
