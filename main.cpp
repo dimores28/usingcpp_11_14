@@ -127,36 +127,82 @@ struct Hack {
 
 
 
+//int main()
+//{
+//
+//	/*B i1;
+//	B* i2 = &i1;
+//	foo((A*&)i2);
+//
+//	cout << sizeof(A) << endl;
+//	cout << sizeof(B) << endl;
+//*/
+//
+//
+//	A a;
+//	((Hack*)&a)->i = 789;
+//
+//	a.print();
+//
+//	vector<int> v{ 42,13,14 };
+//	vector<int> v2{ 7,7,14 };
+//
+//	struct VecHack
+//	{
+//		int* begin;
+//		int* end;
+//	};
+//
+//
+//	*((VecHack*)&v)->begin = *((VecHack*)&v2)->begin;
+//	cout << *v.begin() << endl;
+//
+//	
+//	return 0;
+//}
+
 int main()
 {
 
-	/*B i1;
-	B* i2 = &i1;
-	foo((A*&)i2);
+	vector<int> v = {1,0,12,11,13,12,30,42};
+	cout << boolalpha 
+		 << all_of(v.begin(), v.end(), [](auto& item) {return item >= 0; }) 
+		 << endl
+	     << any_of(v.begin(), v.end(), [](auto& item) {return item == 0; })
+		 << endl
+		 << none_of(v.begin(), v.end(), [](auto& item) {return item < 0; })
+		 << endl;
 
-	cout << sizeof(A) << endl;
-	cout << sizeof(B) << endl;
-*/
+	struct Sum { 
+		int result; 
 
-
-	A a;
-	((Hack*)&a)->i = 789;
-
-	a.print();
-
-	vector<int> v{ 42,13,14 };
-	vector<int> v2{ 7,7,14 };
-
-	struct VecHack
-	{
-		int* begin;
-		int* end;
+	   Sum() :result(0) {} 
+	   void operator()(const int& i) { result += i; }
 	};
 
 
-	*((VecHack*)&v)->begin = *((VecHack*)&v2)->begin;
-	cout << *v.begin() << endl;
+	for_each(v.begin(), v.end(), [](auto& i) {cout << i << endl; });
+	Sum s = for_each(v.begin(), v.end(), Sum());
+	cout << "resalt " << s.result << endl;
 
-	
+	cout << count(v.begin(), v.end(), 12) << endl;
+	cout << count_if(v.begin(), v.end(), [](auto& i) {return i == 42; }) << endl;
+
+	vector<int> v2 = { 1,0,12,17 };
+	auto p = mismatch(v.begin(), v.end(), v2.begin(), v2.end());
+	cout << *p.first << " " << *p.second << endl;
+
+	auto is_palindrome = [](const string& s) {return equal(s.begin(), s.begin() + s.size() / 2, s.rbegin()); };
+	cout << boolalpha << is_palindrome("radar") << ", " << is_palindrome("Hello") << endl;
+
+	vector<int> v3 = { 14,50,1,11 };
+	cout << *find_first_of(v.begin(), v.end(), v3.begin(), v3.end()) << endl;
+
+	vector<int> v4 = { 2,6,2,2,4,5,5,7,3 };
+	cout << *adjacent_find(v4.begin(), v4.end()) << endl;
+   //Поиск первого элемента который будеет больше следующего
+	//cout << *adjacent_find(v4.begin(), v4.end(), isgreater<int>()) << endl;
+
+
 	return 0;
 }
